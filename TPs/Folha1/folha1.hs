@@ -9,20 +9,18 @@ triangleArea a b c | testTriangle a b c = sqrt (s*(s-a)*(s-b)*(s-c))
 halves :: [a] -> ([a], [a])
 halves xs = (take half xs, drop half xs) where half = div (length xs) 2
 
-last1 :: [a] -> a
+last1, last2, last3 :: [a] -> a
 last1 xs = head (reverse xs)
-last2 :: [a] -> a
 last2 xs = xs !! (length xs - 1)
-{- head (drop (length l -1) l )-}
-init1 :: [a] -> [a]
+last3 xs = head (drop (length xs - 1) xs)
+
+init1, init2 :: [a] -> [a]
 init1 xs = take (length xs - 1) xs
-init2 :: [a] -> [a]
 init2 xs = reverse (drop 1 (reverse xs))
 
-binom :: Integer -> Integer -> Integer
 fact :: Integer -> Integer
 fact n = product [1..n]
-
+binom :: Integer -> Integer -> Integer
 binom n k = div (fact n) ( fact k * fact (n-k) )
 
 binom' :: Integer -> Integer -> Integer
@@ -34,6 +32,7 @@ roots a b c | delta > 0 = ( Just ((-b+sqrt delta)/(2*a)), Just ((-b-sqrt delta)/
             | delta == 0 = ( Just (-b/(2*a)), Nothing )
             | otherwise = ( Nothing, Nothing )
             where delta = b^2 - 4*a*c
+
 {-
 ['a', 'b', 'c'] -> [Char]
 ('a', 'b', 'c') -> (Char, Char, Char)
@@ -42,7 +41,6 @@ roots a b c | delta > 0 = ( Just ((-b+sqrt delta)/(2*a)), Just ((-b-sqrt delta)/
 [tail, init, reverse] -> [[a]->[a]]
 [id, not] -> [Bool -> Bool]
 -}
-
 
 {-
 a) [a] -> a
@@ -72,13 +70,15 @@ classify w h | imc > 0 && imc < 18.5 = "baixo peso"
              | otherwise = "erro"
               where imc = w/h^2
 
-max3, min3, max3', min3' :: Ord a => a -> a -> a -> a
+max3, min3 :: Ord a => a -> a -> a -> a
 max3 a b c | a > b && b > c = a
            | b > a && a > c = b
            | otherwise = c
 min3 a b c | a <= b && b <= c = a
            | b <= a && a <= c = b
            | otherwise = c
+           
+max3', min3' :: Ord a => a -> a -> a -> a
 max3' a b = max (max a b)
 min3' a b = max (max a b)
 
@@ -105,6 +105,7 @@ median :: Ord a => a -> a -> a -> a
 median a b c | b > a && a > c || (b < a && a < c) = a
              | a > b && b > c || (a < b && b < c) = b
              | otherwise = c
+
 median' :: (Num a, Ord a) => a -> a -> a -> a
 median' a b c = a + b + c - max3 a b c - min3 a b c 
 

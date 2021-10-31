@@ -82,15 +82,22 @@ max3', min3' :: Ord a => a -> a -> a -> a
 max3' a b = max (max a b)
 min3' a b = max (max a b)
 
-xor :: Bool -> Bool -> Bool
+xor, xor', xor'' :: Bool -> Bool -> Bool
 xor False False = False 
 xor True True = False
 xor True False = True
 xor False True = True
+xor' x y | x == y = False
+xor' _ _ = True
+xor'' True x = not x
+xor'' False x = x
 
-safetail :: [a] -> [a] 
+safetail, safetail' :: [a] -> [a] 
 safetail [] = []
 safetail xs = tail xs
+safetail' xs = case xs of
+                [] -> []
+                xs -> tail xs
 
 short :: [a] -> Bool
 short xs = length xs < 3
@@ -99,7 +106,8 @@ short' :: [a] -> Bool
 short' [] = True
 short' [_] = True
 short' [_,_] = True
-short' xs = False
+short' xs = False 
+{- short' _ = False -}
 
 median :: Ord a => a -> a -> a -> a
 median a b c | b > a && a > c || (b < a && a < c) = a
